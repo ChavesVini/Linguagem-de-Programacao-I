@@ -1,32 +1,25 @@
-import java.util.Scanner;
 import java.util.ArrayList;
+import java.util.Scanner;
 
 public class EX78 {
+    private ArrayList<String> nomes;
+    private String buscar; 
     public static void main(String[] args) {
-        String nome;
-        String[] nomes;
-        String pesquisa;
+        ArrayList<String> nomes = new ArrayList<String>();
+        Scanner buscar = new Scanner(System.in);
 
-        Scanner leitor = new Scanner(System.in);
-        System.out.print("Digite os nomes, separando com virgula: ");
-        nomes = leitor.next().split(",");
-
-        ArrayList<String> listaNomes = new ArrayList<>();
-
-        for (int i=0; i<nomes.length; i++) {
-            String outrosnomes = nomes[i];
-            listaNomes.add(outrosnomes);
+        for (int i=0; i<10; i++) {
+            System.out.print("Escreva os nomes: ");
+            nomes.add(buscar.next());
         }
 
-        Scanner buscador = new Scanner(System.in);
-        System.out.print("Digite algum nome: ");
-        pesquisa = buscador.next();
+        System.out.print("Busque por um nome: ");
 
-        if (listaNomes.contains(pesquisa)) {  
-            System.out.println("Achei!");
+        if (nomes.contains(buscar.next())) {
+            System.out.print("Achei!");
         }
         else {
-            System.out.println("Não achei!");
-             }
-         }
+            System.out.print("Não achei!");
+        }
     }
+}
