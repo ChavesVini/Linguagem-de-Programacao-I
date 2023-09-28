@@ -12,20 +12,23 @@ public class EX91 {
         Scanner leitor = new Scanner(System.in);
 
         for (float i=0; i<5; i++) {
-            System.out.println("Insira os números pro vetor 1: ");
+            System.out.println("Insira os números pro vetor: ");
             VET.add(leitor.nextFloat());
         }
 
         Collections.sort(VET);
-
+        System.out.println("O vetor até agora: " + VET);
+        
         for (int i=0; i<5; i++)  {
-            for (int j=i+1; j<5; j++)
+            for (int j=i+1; j<5; j++) {
                 if (VET.get(i).equals(VET.get(j))) {
                     index.add(VET.indexOf(VET.get(i)));
+                    index.add(VET.lastIndexOf(VET.get(i)));
                 } else {
                     continue;
                 }
             }
+        }
         System.out.println("Aparece números repetidos, nos indices " + index);
     }
 }
