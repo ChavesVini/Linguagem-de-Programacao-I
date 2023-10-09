@@ -26,5 +26,6 @@ public class EX84 {
         for (int i=0; i<N; i++) {
             Soma.add(A.get(i).intValue() + B.get(i).intValue());
         }
+        System.out.println(Soma);
     }
 }

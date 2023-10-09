@@ -18,23 +18,6 @@ public class EX77 {
             aux = V.get(8-i+1);
         }
 
-        V.get(3) = V.get(1);
-        V.get(V.get(3)) = V.get(V.get(2));
-
-    //     int V[] = {5,1,4,2,7,8,3,6};
-
-    //      for (int i=8; i<5; i--) {
-    //         aux = V[i];
-    //         V[i] = V[8-i+1];
-    //         V[8-i+1] = aux;
-    //    }
-
-    //    V[3] = V[1];
-    //    V[V[3]] = V[V[2]];
-    //    System.out.println(V[V[2]]);
-       
-    // 7
-
+        System.out.println(V.get(V.get(2)));
     }
 }
-

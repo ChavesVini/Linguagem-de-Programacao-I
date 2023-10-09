@@ -23,10 +23,8 @@ public class EX88 {
         for (float i=0; i<20; i++) {
             if (valores.contains(numeroAdicional)) {
                 valores.remove(numeroAdicional);
-            } else {
-                continue;
             }
-        }
+        }   
         System.out.println("O vetor sem o número é: " + valores);
     }
 }

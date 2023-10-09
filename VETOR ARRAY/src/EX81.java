@@ -6,7 +6,7 @@ public class EX81 {
         ArrayList<Float> Q = new ArrayList<Float>();
         Scanner inputNumeros = new Scanner(System.in);
         int indice;
-        float menor = 0;
+        float menor = Integer.MAX_VALUE;
 
         for (int i=0; i<20; i++) {
             System.out.print("Escreva os números: ");
@@ -14,7 +14,7 @@ public class EX81 {
         }
 
         for (float numeros : Q) {
-            if (numeros < menor) {
+            if (numeros <= menor) {
                 menor = 0;
                 menor += numeros;
             }

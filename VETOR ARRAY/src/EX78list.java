@@ -1,8 +1,9 @@
+import java.util.Arrays;
 import java.util.Scanner;
 
 public class EX78list {
     public static void main(String[] args) {
-        String nomes[] = new String[10];
+        String[] nomes = new String[10];
         Scanner buscar = new Scanner(System.in);
 
         for (int i=0; i<10; i++) {
@@ -12,8 +13,7 @@ public class EX78list {
 
         System.out.print("Busque por um nome: ");
 
-        
-        if (nomes.toString() == buscar.next()) {
+        if (Arrays.toString(nomes).contains(buscar.next())) {
             System.out.println("Achei!");
         }
         else {

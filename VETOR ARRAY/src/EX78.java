@@ -2,8 +2,6 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 public class EX78 {
-    private ArrayList<String> nomes;
-    private String buscar; 
     public static void main(String[] args) {
         ArrayList<String> nomes = new ArrayList<String>();
         Scanner buscar = new Scanner(System.in);
