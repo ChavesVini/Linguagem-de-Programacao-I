@@ -4,98 +4,93 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
- */
-
-/**
- *
- * @author ViniD
- */
 public class TelaCRUD extends javax.swing.JFrame {
 
+    private javax.swing.JButton botaoAtualizar;
+    private javax.swing.JButton botaoDeletar;
+    private javax.swing.JButton botaoEnviar;
+    private javax.swing.JButton botaoProcessar;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
+    private javax.swing.JPanel jPanel1;
+    private javax.swing.JLabel lblAtualizacao;
+    private javax.swing.JTextField lblAtualizar;
+    private javax.swing.JTextField lblCriar;
+    private javax.swing.JLabel lblDeletado;
+    private javax.swing.JLabel lblFrase;
 
+    public class ConnectionDataBase {
+    
+        private static final String url = "jdbc:postgresql://localhost:5432/postgres";
+        private static final String user = "postgres";
+        private static final String password = "api";
+        private static Connection conn;
 
-public class ConnectionDataBase {
-    private static final String url = "jdbc:postgresql://localhost:5432/postgres";
-    private static final String user = "postgres";
-    private static final String password = "api";
-    private static Connection conn;
-
-    public Connection getConexao(){
-        try {
-            if (conn == null) {
-                Class.forName("org.postgresql.Driver");
-                System.out.println("Banco conectado");
-                conn = DriverManager.getConnection(url, user, password);
-                return  conn;
-            }else{
-                return conn;
+        public Connection getConexao(){
+            try {
+                if (conn == null) {
+                    Class.forName("org.postgresql.Driver");
+                    System.out.println("Banco conectado");
+                    conn = DriverManager.getConnection(url, user, password);
+                    return  conn;
+                }else{
+                    return conn;
+                }
+            } catch (SQLException e){
+                System.out.println("Erro: Falha na conexão com o banco de dados.");
+                e.printStackTrace();
+                return null;
+            } catch (ClassNotFoundException e){
+                System.out.println("Erro: Driver JDBC não encontrado.");
+                e.printStackTrace();
+                return null;
             }
-        } catch (SQLException e){
-            System.out.println("Erro: Falha na conexão com o banco de dados.");
-            e.printStackTrace();
-            return null;
-        } catch (ClassNotFoundException e){
-            System.out.println("Erro: Driver JDBC não encontrado.");
-            e.printStackTrace();
-            return null;
         }
-
     }
-}
 
     public TelaCRUD() {
         initComponents();
     }
 
-    private void inserirBanco(String frase) {
+    private void inserirBanco(String insercao) {
         try {
             ConnectionDataBase connectionDb = new ConnectionDataBase();
             Connection connection = connectionDb.getConexao();
             String insercaoSQL = "INSERT INTO frase (frase) VALUES (?)";
             PreparedStatement preparedStatement = connection.prepareStatement(insercaoSQL);
-            preparedStatement.setString(1, frase);
+            preparedStatement.setString(1, insercao);
             preparedStatement.executeUpdate();
         } catch (SQLException e){
             e.printStackTrace();
         }
     }
     
-    private void deletarBanco () {
+    private void deletarBanco() {
         try {
             ConnectionDataBase connectionDb = new ConnectionDataBase();
             Connection connection = connectionDb.getConexao();
-            String insercaoSQL = "delete from frase where id = (select max(id) from frase)";
-            PreparedStatement preparedStatement = connection.prepareStatement(insercaoSQL);
+            PreparedStatement preparedStatement = connection.prepareStatement("delete from frase where id = (select max(id) from frase)");
             preparedStatement.executeUpdate();
         } catch (SQLException e){
             e.printStackTrace();
         }
     }
     
-    private void updateBanco (String frase2) {
+    private void atualizarBanco(String atualizacao) {
         try {
             ConnectionDataBase connectionDb = new ConnectionDataBase();
             Connection connection = connectionDb.getConexao();
-            String insercaoSQL = "update frase set frase = ? where id = (select max(id) from frase);";
-            PreparedStatement pstmt = connection.prepareStatement(insercaoSQL);
-            pstmt.setString(1, frase2);
+            PreparedStatement pstmt = connection.prepareStatement("update frase set frase = ? where id = (select max(id) from frase)");
+            pstmt.setString(1, atualizacao);
             pstmt.executeUpdate();
         } catch (SQLException e){
             e.printStackTrace();
         }
     }
-    /**
-     * This method is called from within the constructor to initialize the form.
-     * WARNING: Do NOT modify this code. The content of this method is always
-     * regenerated by the Form Editor.
-     */
-    @SuppressWarnings("unchecked")
-    // <editor-fold defaultstate="collapsed" desc="Generated Code">                          
+      
     private void initComponents() {
 
         jPanel1 = new javax.swing.JPanel();
@@ -231,15 +226,18 @@ public class ConnectionDataBase {
         );
 
         pack();
-    }// </editor-fold>                        
+    }                       
 
     private void botaoEnviarActionPerformed(java.awt.event.ActionEvent evt) {                                            
-        String frase = lblCriar.getText();
-        inserirBanco(frase);
+        inserirBanco(lblCriar.getText());
     }                                           
 
     private void botaoProcessarActionPerformed(java.awt.event.ActionEvent evt) {                                               
-        lblFrase.setText(lblCriar.getText());
+        if (lblAtualizar.getText().isEmpty()) {
+            lblFrase.setText(lblCriar.getText());
+        } else {
+            lblFrase.setText(lblAtualizar.getText());
+        }
     }                                              
 
     private void botaoDeletarActionPerformed(java.awt.event.ActionEvent evt) {                                             
@@ -248,20 +246,11 @@ public class ConnectionDataBase {
     }                                            
 
     private void botaoAtualizarActionPerformed(java.awt.event.ActionEvent evt) {                                               
-        String frase2 = lblAtualizar.getText();
+        atualizarBanco(lblAtualizar.getText());
         lblAtualizacao.setText("Atualizado!");
-        updateBanco(frase2);
     }                                              
 
-    /**
-     * @param args the command line arguments
-     */
     public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
         try {
             for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
                 if ("Nimbus".equals(info.getName())) {
@@ -270,40 +259,17 @@ public class ConnectionDataBase {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(telaPrincipal.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(TelaCRUD.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(telaPrincipal.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(TelaCRUD.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(telaPrincipal.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(TelaCRUD.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(telaPrincipal.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(TelaCRUD.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
-        //</editor-fold>
 
-        /* Create and display the form */
         java.awt.EventQueue.invokeLater(() -> {
-            new telaPrincipal().setVisible(true);
+            new TelaCRUD().setVisible(true);
         });
-    }
-    
-    private String frase;
-    private String frase2;    
-    private Integer id;
-
-    // Variables declaration - do not modify                     
-    private javax.swing.JButton botaoAtualizar;
-    private javax.swing.JButton botaoDeletar;
-    private javax.swing.JButton botaoEnviar;
-    private javax.swing.JButton botaoProcessar;
-    private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel3;
-    private javax.swing.JLabel jLabel4;
-    private javax.swing.JPanel jPanel1;
-    private javax.swing.JLabel lblAtualizacao;
-    private javax.swing.JTextField lblAtualizar;
-    private javax.swing.JTextField lblCriar;
-    private javax.swing.JLabel lblDeletado;
-    private javax.swing.JLabel lblFrase;
-    // End of variables declaration                   
+    }                
 }
